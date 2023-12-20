@@ -126,6 +126,24 @@ def remove_cart(request):
      "totalamount": amount + shipping_amount,
     }
     return JsonResponse(data) 
+   
+def mobile(request,data=None):
+ if data == None:
+  mobiles = Product.objects.filter(category="M")
+ elif data == "Redmi" or data == "Samsung":
+  mobiles = Product.objects.filter(category="M").filter(brand=data)
+ elif data == "below":
+  mobiles = Product.objects.filter(category ="M").filter(discounted_price__gt=10000)
+ return render(request,"app/mobile.html",{"mobiles":mobiles})
+    
+def laptop(request,data=None):
+ if data == None:
+  laptops = Product.objects.filter(category="L")
+ elif data == "HP" or data == "Lenovo":
+  laptops = Product.objects.filter(category="l").filter(brand=data)
+ elif data == "below":
+  laptops = Product.objects.filter(category ="l").filter(discounted_price__gt=10000)
+ return render(request,"app/laptop.html",{"laptops":laptops})    
      
 def buy_now(request):
  return render(request, 'app/buynow.html')
@@ -142,8 +160,8 @@ def orders(request):
 def change_password(request):
  return render(request, 'app/changepassword.html')
 
-def mobile(request):
- return render(request, 'app/mobile.html')
+# def mobile(request):
+#  return render(request, 'app/mobile.html')
 
 def login(request):
  return render(request, 'app/login.html')
