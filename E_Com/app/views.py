@@ -3,6 +3,8 @@ from django.views import View
 from .models import *
 from django.db.models import Q
 from django.http import JsonResponse
+from .forms import CustomerRegistrationForm
+from django.contrib import messages
 
 #def home(request):
 # return render(request, 'app/home.html')
@@ -147,7 +149,19 @@ def laptop(request,data=None):
   laptops = Product.objects.filter(category ="L").filter(discounted_price__gt=10000)
  elif data == "above":
   laptops = Product.objects.filter(category ="L").filter(discounted_price__gt=10000)
- return render(request,"app/laptop.html",{"laptops":laptops})    
+ return render(request,"app/laptop.html",{"laptops":laptops})   
+
+class CustomerRegistrationView(View):
+  def get(self, request):
+   form = CustomerRegistrationForm()
+   return render(request,"app/customerregistration.html",{"form":form})
+  
+  def post(self, request):
+   form = CustomerRegistrationForm(request.POST)
+   if form.is_valid():
+    messages.success(request,"Cogratulations !! Registerd Successfully")
+    form.save()
+   return render(request,"app/customerregistration.html",{"form":form})   
      
 def buy_now(request):
  return render(request, 'app/buynow.html')

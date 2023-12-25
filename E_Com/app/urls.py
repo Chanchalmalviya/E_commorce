@@ -12,6 +12,7 @@ urlpatterns = [
     path("pluscart/",views.plus_cart,name="pluscart"),
     path("minuscart/",views.minus_cart,name="minuscart"),
     path("removecart/",views.remove_cart,name="removecart"),
+    path("registration/",views.CustomerRegistrationView.as_view(),name="customerregistration"),
     path('buy/', views.buy_now, name='buy-now'),
     path('profile/', views.profile, name='profile'),
     path('address/', views.address, name='address'),
@@ -23,7 +24,7 @@ urlpatterns = [
     path('laptop/<slug:data>', views.laptop, name='laptopdata'),
 
     path('login/', views.login, name='login'),
-    path('registration/', views.customerregistration, name='customerregistration'),
+   
     path('checkout/', views.checkout, name='checkout'),
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 
