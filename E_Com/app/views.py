@@ -134,15 +134,19 @@ def mobile(request,data=None):
   mobiles = Product.objects.filter(category="M").filter(brand=data)
  elif data == "below":
   mobiles = Product.objects.filter(category ="M").filter(discounted_price__gt=10000)
+ elif data == "above":
+  mobiles = Product.objects.filter(category ="M").filter(discounted_price__gt=1000)
  return render(request,"app/mobile.html",{"mobiles":mobiles})
     
 def laptop(request,data=None):
  if data == None:
   laptops = Product.objects.filter(category="L")
  elif data == "HP" or data == "Lenovo":
-  laptops = Product.objects.filter(category="l").filter(brand=data)
+  laptops = Product.objects.filter(category="L").filter(brand=data)
  elif data == "below":
-  laptops = Product.objects.filter(category ="l").filter(discounted_price__gt=10000)
+  laptops = Product.objects.filter(category ="L").filter(discounted_price__gt=10000)
+ elif data == "above":
+  laptops = Product.objects.filter(category ="L").filter(discounted_price__gt=10000)
  return render(request,"app/laptop.html",{"laptops":laptops})    
      
 def buy_now(request):
