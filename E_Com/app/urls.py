@@ -27,7 +27,7 @@ urlpatterns = [
     path('bottomwear/<slug:data>', views.bottomwear, name='bottomweardata'),
     path("profile",views.ProfileView.as_view(),name="profile"),
     path('address/', views.address, name='address'),
-
+    path("paymentdone/", views.payment_done, name="paymentdone"),
     path('buy/', views.buy_now, name='buy-now'),
     path('orders/', views.orders, name='orders'),
     path('changepassword/', views.change_password, name='changepassword'),

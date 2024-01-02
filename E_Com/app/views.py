@@ -234,12 +234,34 @@ class ProfileView(View):
 def buy_now(request):
  return render(request, 'app/buynow.html')
 
+def checkout(request):
+    user = request.user
+    add = Customer.objects.filter(user=user)
+    cart_items = Cart.objects.filter(user=user)
+    shipping_amount = 70.0
+    totalamount = 0.0
+
+    for item in cart_items:
+        item.product_amount = item.quantity * item.product.discounted_price
+        totalamount += item.product_amount
+
+    totalamount += shipping_amount
+
+    return render(
+        request,
+        "app/checkout.html",
+        {
+            "add": add,
+            "totalamount": totalamount,
+            "cart_items": cart_items,
+        },
+    )
 
 
 
 def orders(request):
- od=Orderplace.objects.filter(user=request.user)
- return render(request, 'app/orders.html',{'od':od})
+ order_placed=Orderplace.objects.filter(user=request.user)
+ return render(request, 'app/orders.html',{'order_placed':order_placed})
 
 def change_password(request):
  return render(request, 'app/changepassword.html')
@@ -252,5 +274,12 @@ def change_password(request):
 def customerregistration(request):
  return render(request, 'app/customerregistration.html')
 
-def checkout(request):
- return render(request, 'app/checkout.html')
+
+def payment_done(request):
+  user = request.user
+  custid = request.GET.get("custid")
+  customer = Customer.objects.get(id=custid)
+  cart = Cart.objects.filter(user=user)
+  for c in cart:
+    Orderplace(user=user,customer=customer,product=c.product,quantity=c.quantity,).save()
+    return redirect("orders")
